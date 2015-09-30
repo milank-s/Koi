@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Objects/Sound/playSound.cs">
+    <Files>
+      <File FileName="Assets/Objects/Sound/playSound.cs" Line="24" Column="75" />
+      <File FileName="Assets/Objects/Koi/Scripts/scaleBehaviour.cs" Line="91" Column="44" />
+      <File FileName="Assets/Objects/Sound/deleteSound.cs" Line="22" Column="59" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
