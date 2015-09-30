@@ -27,17 +27,17 @@ public class scaleBehaviour: MonoBehaviour {
 			if (c == "\b" [0]) {
 				if (word.Length != 0) {
 					word = word.Substring (0, word.Length - 1);
-				
+					}
 				} else {
 
-					if (c == "\n" [0] || c == "\r" [0]) {
+				if (c == "\n" [0] || c == "\r" [0] || c == " "[0] ) {
 						fallOff (word);
+						word = "";
 					} else {
 						word += c;
 					}
 				}
 			}
-		}
 	}
 
 	void drawLine(){
@@ -95,8 +95,7 @@ public class scaleBehaviour: MonoBehaviour {
 			curScale.GetComponent<Rigidbody> ().isKinematic = false;
 			curScale.GetComponent<Rigidbody> ().freezeRotation = false;
 			curScale.GetComponent<Rigidbody> ().useGravity = false;
-			GameObject newText = GameObject.Instantiate(text);
-			newText.transform.position = curScale.transform.position;
+			GameObject newText = (GameObject)Instantiate(text, curScale.transform.position, new Quaternion(0, 0, 0, 0));
 			newText.transform.parent = curScale.transform;
 			newText.GetComponentInChildren<TextFader>().setText(t);
 			GameObject.Find ("Master").GetComponent<playSound>().play();
