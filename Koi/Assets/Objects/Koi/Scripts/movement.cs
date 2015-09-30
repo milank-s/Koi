@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,13 +7,17 @@ public class movement : MonoBehaviour {
 
 	public float xLimit, yLimit, zLimit, speed, turnRadius;
 	GameObject[] bones, spine, tail;
-	GameObject root, head;
+	GameObject root;// head;
 	Vector3[] startRotation, curRotation;
 	scaleBehaviour ScaleBehaviour;
 	float x, y, z, turnAngle, flipAngle, spinAngle, curSpeed, curTime, phase, frequency, spin, amplitude;
 	bool isDead;
 
-	// Use this for initialization
+	NetworkIdentity ni;
+
+	void Awake(){
+		ni = GetComponent<NetworkIdentity>();
+	}
 	void Start () {
 
 		spin 			= 0;
@@ -28,7 +33,7 @@ public class movement : MonoBehaviour {
 		ScaleBehaviour	= this.GetComponentInChildren<scaleBehaviour> ();
 		startRotation 	= new Vector3 [bones.Length];
 		root 			= GameObject.Find ("root");
-		head 			= GameObject.Find ("head");
+		//head 			= GameObject.Find ("head");
 		amplitude 		= yLimit;
 		isDead = false;
 
@@ -45,6 +50,8 @@ public class movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		if(!ni.isLocalPlayer){return;} //Only Local client controls this koi
+
 		move();
 		if (Input.GetKeyDown (KeyCode.Q)) {
 			isDead = true;

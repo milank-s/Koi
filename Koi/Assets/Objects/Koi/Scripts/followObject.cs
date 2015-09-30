@@ -16,8 +16,8 @@ public class followObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		if(target == null){return;}
 		followTarget ();
-
 	}
 	
 	void followTarget(){

@@ -11,12 +11,12 @@ public class scaleBehaviour: MonoBehaviour {
 	Transform[] 		scalePositions;
 	Vector3[] 			positions;
 	int 				scaleAmount;
-	float 				interval;
+	//float 				interval;
 	string 				word;
 
 	// Use this for initialization
 	void Start () {
-		interval = detachSpeed;
+		//interval = detachSpeed;
 		createArray ();	
 		word = "";
 	}
@@ -72,7 +72,7 @@ public class scaleBehaviour: MonoBehaviour {
 		}
 		GameObject curScale = scales [scaleAmount];
 		
-		Mesh snapshot = new Mesh ();
+		//Mesh snapshot = new Mesh ();
 		curScale.transform.parent = scalePositions [scaleAmount].parent;
 		curScale.transform.localScale = scalePositions [scaleAmount].localScale;
 		curScale.GetComponent<Rigidbody> ().useGravity = false;
@@ -101,7 +101,7 @@ public class scaleBehaviour: MonoBehaviour {
 			GameObject.Find ("Master").GetComponent<playSound>().play();
 			addRepellingForce (curScale, scaleAmount);
 			scaleAmount--;
-			interval = Random.Range(0f, detachSpeed);
+			//interval = Random.Range(0f, detachSpeed);
 	}
 	
 	void addCenteringForce(GameObject scale, int value){

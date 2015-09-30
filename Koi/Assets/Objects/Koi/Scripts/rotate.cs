@@ -3,11 +3,11 @@ using System.Collections;
 
 public class rotate : MonoBehaviour {
 		
-	float angle, speed, limit;
+	float speed, limit; //angle
 	Vector3 localAngle;
 
 	void Start () {
-		angle = 0;
+		//angle = 0;
 		localAngle = this.transform.localEulerAngles;
 	}
 	

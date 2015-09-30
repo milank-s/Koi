@@ -7,7 +7,7 @@ public class AnimateMaterials : MonoBehaviour {
 	public bool animate;
 	public float interval, xOffset, yOffset, timeScale;
 	float speed;
-	float alpha, x, y;
+	float x, y; //alpha
 	int index;
 
 
@@ -15,7 +15,7 @@ public class AnimateMaterials : MonoBehaviour {
 	void Start () {
 		x = 0;
 		y = 0;
-		alpha = 0;
+		//alpha = 0;
 		speed = interval;
 		index = Random.Range (0, Materials.Length);
 		Renderer r = this.GetComponentInChildren<Renderer> ();
