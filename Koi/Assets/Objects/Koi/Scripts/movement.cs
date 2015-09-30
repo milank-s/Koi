@@ -66,7 +66,7 @@ public class movement : MonoBehaviour {
 		bool turning = false;
 		turnRadius = curSpeed;
 	
-		if (Input.GetKey (KeyCode.W)) {
+		if (Input.GetAxis("Vertical") > 0) {
 			turning = true;
 			flipAngle = Mathf.Lerp (flipAngle, turnRadius, Time.deltaTime * curSpeed);
 			z = Mathf.Lerp (z, -zLimit, Time.deltaTime * curSpeed);
@@ -75,7 +75,7 @@ public class movement : MonoBehaviour {
 			z = Mathf.Lerp (z, 0, Time.deltaTime * curSpeed);
 		}
 
-		if (Input.GetKey (KeyCode.S)) {
+		if (Input.GetAxis("Vertical") < 0) {
 			turning = true;
 			flipAngle = Mathf.Lerp (flipAngle, -turnRadius, Time.deltaTime * curSpeed);
 			z = Mathf.Lerp (z, zLimit, Time.deltaTime * curSpeed);
@@ -85,7 +85,7 @@ public class movement : MonoBehaviour {
 		}
 
 
-		if (Input.GetKey (KeyCode.D)) {
+		if (IInput.GetAxis("Horizontal") > 0) {
 			turning = true;
 			turnAngle = Mathf.Lerp (turnAngle, turnRadius, Time.deltaTime  * curSpeed);
 			x = Mathf.Lerp (x, -xLimit, Time.deltaTime);
@@ -95,7 +95,7 @@ public class movement : MonoBehaviour {
 			x = Mathf.Lerp(x, 0, Time.deltaTime);
 		}
 
-		if (Input.GetKey (KeyCode.A)) {
+		if (Input.GetAxis("Horizontal") < 0) {
 			turning = true;
 			turnAngle = Mathf.Lerp (turnAngle, -turnRadius, Time.deltaTime  * curSpeed);
 			x = Mathf.Lerp (x, xLimit, Time.deltaTime);
