@@ -85,7 +85,7 @@ public class movement : MonoBehaviour {
 		}
 
 
-		if (IInput.GetAxis("Horizontal") > 0) {
+		if (Input.GetAxis("Horizontal") > 0) {
 			turning = true;
 			turnAngle = Mathf.Lerp (turnAngle, turnRadius, Time.deltaTime  * curSpeed);
 			x = Mathf.Lerp (x, -xLimit, Time.deltaTime);
