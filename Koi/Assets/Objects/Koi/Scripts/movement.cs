@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class movement : MonoBehaviour {
 
-	public float xLimit, yLimit, zLimit, speed, turnRadius;
+	public float xLimit, yLimit, zLimit, speed, turnRadius, spinRadius;
 	GameObject[] bones, spine, tail;
 	GameObject root;// head;
 	Vector3[] startRotation, curRotation;
@@ -19,7 +19,7 @@ public class movement : MonoBehaviour {
 		ni = GetComponent<NetworkIdentity>();
 	}
 	void Start () {
-
+		spinRadius 		= 90;
 		spin 			= 0;
 		spinAngle 		= spin;
 		curSpeed 		= speed;
@@ -115,7 +115,8 @@ public class movement : MonoBehaviour {
 		spinAngle = Mathf.Lerp (spinAngle, spin, Time.deltaTime/5);
 
 		if(Input.GetKeyDown(KeyCode.LeftShift)){
-			spin += 180;
+			spin += spinRadius;
+			spinRadius = -spinRadius;
 		}
 
 		if (Input.GetKey (KeyCode.Space)) {
