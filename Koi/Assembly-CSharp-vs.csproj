@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CameraLink.cs" />
      <Compile Include="Assets\Objects\General\AnimateMaterials.cs" />
      <Compile Include="Assets\Objects\General\AssignMaterialsToFaces.cs" />
      <Compile Include="Assets\Objects\General\drawSkinnedVerts.cs" />
@@ -58,6 +59,8 @@
      <Compile Include="Assets\Objects\Koi\Scripts\rotate.cs" />
      <Compile Include="Assets\Objects\Koi\Scripts\scaleBehaviour.cs" />
      <Compile Include="Assets\Objects\Koi\Scripts\scaleController.cs" />
+     <Compile Include="Assets\Objects\Networking\ClientMenu.cs" />
+     <Compile Include="Assets\Objects\Networking\ServerMenu.cs" />
      <Compile Include="Assets\Objects\Sound\deleteSound.cs" />
      <Compile Include="Assets\Objects\Sound\playSound.cs" />
      <Compile Include="Assets\Objects\Text\Scripts\FaceCamera.cs" />

@@ -1046,7 +1046,7 @@ Transform:
   m_PrefabParentObject: {fileID: 443428, guid: 0b2707dffadff43219f79c10233a0952, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 58571592}
-  m_LocalRotation: {x: .836664498, y: .00633122632, z: -.545358539, w: -.0503646843}
+  m_LocalRotation: {x: .836664379, y: .00633122539, z: -.545358479, w: -.0503646769}
   m_LocalPosition: {x: -6.02590656, y: -1.78930557, z: 8.75536251}
   m_LocalScale: {x: 1.19723237, y: 1.19723237, z: 1.19723237}
   m_Children: []
@@ -26763,6 +26763,7 @@ MonoBehaviour:
   zLimit: 0
   speed: 1.5
   turnRadius: 2
+  spinRadius: 0
 --- !u!1 &1697201333
 GameObject:
   m_ObjectHideFlags: 0
