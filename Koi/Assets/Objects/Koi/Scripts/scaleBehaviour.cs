@@ -17,10 +17,10 @@ public class scaleBehaviour: MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//interval = detachSpeed;
-		createArray ();	
+		createArray ();
 		word = "";
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		foreach (char c in Input.inputString) {
@@ -31,9 +31,10 @@ public class scaleBehaviour: MonoBehaviour {
 				} else {
 
 				if (c == "\n" [0] || c == "\r" [0] || c == " "[0] ) {
-						fallOff (word);
+					// dropWord (word);
 						word = "";
 					} else {
+						dropScale();
 						word += c;
 					}
 				}
@@ -50,9 +51,9 @@ public class scaleBehaviour: MonoBehaviour {
 			}
 		}
 	}
-	
+
 	void createArray(){
-	
+
 		scalePositions = this.GetComponentsInChildren<Transform>();
 		scales = new GameObject[scalePositions.Length];
 		scaleAmount = scalePositions.Length-1;
@@ -71,7 +72,7 @@ public class scaleBehaviour: MonoBehaviour {
 			return;
 		}
 		GameObject curScale = scales [scaleAmount];
-		
+
 		//Mesh snapshot = new Mesh ();
 		curScale.transform.parent = scalePositions [scaleAmount].parent;
 		curScale.transform.localScale = scalePositions [scaleAmount].localScale;
@@ -83,9 +84,24 @@ public class scaleBehaviour: MonoBehaviour {
 		curScale.GetComponent<LineRenderer> ().enabled = false;
 		scaleAmount++;
 	}
-	
-	
-	public void fallOff(string t){
+
+	public void dropWord(string t){
+		if (scaleAmount <= 0) {
+			return;
+		}
+		GameObject curScale = scales [scaleAmount];
+		curScale.transform.parent = null;
+		curScale.GetComponent<Rigidbody> ().isKinematic = false;
+		curScale.GetComponent<Rigidbody> ().freezeRotation = false;
+		curScale.GetComponent<Rigidbody> ().useGravity = false;
+		addRepellingForce (curScale, scaleAmount);
+		scaleAmount--;
+		GameObject newText = (GameObject)Instantiate(text, curScale.transform.position, new Quaternion(0, 0, 0, 0));
+		newText.transform.parent = curScale.transform;
+		newText.GetComponentInChildren<TextFader>().setText(t);
+		GameObject.Find ("Master").GetComponent<playSound>().play();
+	}
+	public void dropScale(){
 
 		if (scaleAmount <= 0) {
 			return;
@@ -95,26 +111,21 @@ public class scaleBehaviour: MonoBehaviour {
 			curScale.GetComponent<Rigidbody> ().isKinematic = false;
 			curScale.GetComponent<Rigidbody> ().freezeRotation = false;
 			curScale.GetComponent<Rigidbody> ().useGravity = false;
-			GameObject newText = (GameObject)Instantiate(text, curScale.transform.position, new Quaternion(0, 0, 0, 0));
-			newText.transform.parent = curScale.transform;
-			newText.GetComponentInChildren<TextFader>().setText(t);
-			GameObject.Find ("Master").GetComponent<playSound>().play();
 			addRepellingForce (curScale, scaleAmount);
 			scaleAmount--;
 			//interval = Random.Range(0f, detachSpeed);
 	}
-	
+
 	void addCenteringForce(GameObject scale, int value){
-		
+
 		Vector3 direction = (scalePositions[value].position - scales[value].transform.position);
 		scales[value].GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized, transform.position);
-		
+
 	}
-	
+
 	void addRepellingForce(GameObject scale, int value)	{
-		
-		Vector3 direction = (scales[value].transform.position - scalePositions[value].position);
+		Vector3 direction = (scales[value].transform.forward);
 		scales[value].GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized*100, transform.position);
-		
+
 	}
 }

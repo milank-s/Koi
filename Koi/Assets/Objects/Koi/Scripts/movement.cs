@@ -6,18 +6,14 @@ using System.Collections.Generic;
 public class movement : MonoBehaviour {
 
 	public float xLimit, yLimit, zLimit, speed, turnRadius, spinRadius;
-	GameObject[] bones, spine, tail;
+	GameObject[] spine, tail;
+	public GameObject[] bones;
 	GameObject root;// head;
 	Vector3[] startRotation, curRotation;
 	scaleBehaviour ScaleBehaviour;
 	float x, y, z, turnAngle, flipAngle, spinAngle, curSpeed, curTime, phase, frequency, spin, amplitude;
 	bool isDead;
 
-	NetworkIdentity ni;
-
-	void Awake(){
-		ni = GetComponent<NetworkIdentity>();
-	}
 	void Start () {
 		spinRadius 		= 90;
 		spin 			= 0;
@@ -29,7 +25,6 @@ public class movement : MonoBehaviour {
 		phase 			= 0;
 		frequency 		= speed;
 		tail			= GameObject.FindGameObjectsWithTag("Tail");
-		bones 			= GameObject.FindGameObjectsWithTag("Bone");
 		ScaleBehaviour	= this.GetComponentInChildren<scaleBehaviour> ();
 		startRotation 	= new Vector3 [bones.Length];
 		root 			= GameObject.Find ("root");
@@ -47,10 +42,10 @@ public class movement : MonoBehaviour {
 			//tail [i].transform.parent = null;
 		}
 	}
-	
+
 	// Update is called once per frame
 	void FixedUpdate () {
-		if(!ni.isLocalPlayer){return;} //Only Local client controls this koi
+		//if(!ni.isLocalPlayer){return;} //Only Local client controls this koi
 
 		move();
 		if (Input.GetKeyDown (KeyCode.Q)) {
@@ -61,18 +56,18 @@ public class movement : MonoBehaviour {
 		}
 	}
 
-	void die(){
+	public void die(){
 		spin = 75;
 		speed = 0;
 		GameObject.Find ("Master").GetComponent<followObject> ().smoothTime = Mathf.Lerp(GameObject.Find ("Master").GetComponent<followObject> ().smoothTime, 0, Time.deltaTime/10);
-		ScaleBehaviour.fallOff("");
+		ScaleBehaviour.dropScale();
 	}
 
 	void move(){
 
 		bool turning = false;
 		turnRadius = curSpeed;
-	
+
 		if (Input.GetAxis("Vertical") > 0) {
 			turning = true;
 			flipAngle = Mathf.Lerp (flipAngle, turnRadius, Time.deltaTime * curSpeed);
@@ -136,10 +131,12 @@ public class movement : MonoBehaviour {
 		for (int i = 0; i < bones.Length; i++) {
 
 			newFrequency ();
-			y = Mathf.Sin (Time.time * frequency + phase + i/2) * amplitude;
+			y = Mathf.Sin (-Time.time * frequency + phase + (i/2)) * amplitude;
 
 
-			curRotation [i] = Vector3.Lerp (curRotation [i], new Vector3 ((x * i), y/(i+1), (z * i)), Time.deltaTime *  (i + 1) * curSpeed);
+			curRotation [i] = new Vector3 ((x * (i + 1)), (y * (i+1f))/10, (z * (i + 1)));
+			//(i + 1)
+			// Vector3.Lerp (curRotation... , Time.deltaTime * curSpeed)
 			bones [i].transform.localEulerAngles = curRotation [i];
 		}
 
@@ -148,9 +145,10 @@ public class movement : MonoBehaviour {
 		root.transform.localEulerAngles = new Vector3(spinAngle, turnAngle, root.transform.localEulerAngles.z);
 	}
 
+
 	void newFrequency(){
-		float curr = (Time.time * frequency + phase) % (2.0f * Mathf.PI);
-		float next = (Time.time * (curSpeed*2)) % (2.0f * Mathf.PI);
+		float curr = (-Time.time * frequency + phase) % (2.0f * Mathf.PI);
+		float next = (-Time.time * (curSpeed*2)) % (2.0f * Mathf.PI);
 			phase = curr - next;
 			frequency = curSpeed*2;
 	}
