@@ -2,19 +2,28 @@
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
-public class movement : MonoBehaviour {
+public class movement : MonoBehaviour
+{
 
-	public float xLimit, yLimit, zLimit, speed, turnRadius, spinRadius;
+	[Header("PLAYER CONTROL")] public bool playerControl;
+	[Space(10)]
+	
+	public float xLimit, yLimit, zLimit, speed, sinePeriod;
+	[Space(10)]
+	
 	GameObject[] spine, tail;
 	public GameObject[] bones;
 	GameObject root;// head;
 	Vector3[] startRotation, curRotation;
 	scaleBehaviour ScaleBehaviour;
-	float x, y, z, turnAngle, flipAngle, spinAngle, curSpeed, curTime, phase, frequency, spin, amplitude;
+	[Space(10)]
+	float x, y, z, turnRadius, turnAngle, flipAngle, spinAngle, curSpeed, curTime, phase, frequency, spin, amplitude, spinRadius;
 	bool isDead;
 
 	void Start () {
+		
 		spinRadius 		= 90;
 		spin 			= 0;
 		spinAngle 		= spin;
@@ -47,13 +56,25 @@ public class movement : MonoBehaviour {
 	void FixedUpdate () {
 		//if(!ni.isLocalPlayer){return;} //Only Local client controls this koi
 
-		move();
+		if (playerControl)
+		{
+			move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+		}
+		else
+		{
+			float xVal = 1;
+			float yVal = 0;
+			move(xVal, yVal);
+		}
+
 		if (Input.GetKeyDown (KeyCode.Q)) {
 			isDead = true;
 		}
 		if (isDead) {
 			die ();
 		}
+
+		amplitude = Mathf.Clamp(yLimit/curSpeed, 5f, 20f);
 	}
 
 	public void die(){
@@ -63,12 +84,13 @@ public class movement : MonoBehaviour {
 		ScaleBehaviour.dropScale();
 	}
 
-	void move(){
-
+	
+	void move(float xVal, float yVal){
+	
 		bool turning = false;
-		turnRadius = curSpeed;
+		turnRadius = curSpeed * 0.75f;
 
-		if (Input.GetAxis("Vertical") > 0) {
+		if (yVal > 0) {
 			turning = true;
 			flipAngle = Mathf.Lerp (flipAngle, turnRadius, Time.deltaTime * curSpeed);
 			z = Mathf.Lerp (z, -zLimit, Time.deltaTime * curSpeed);
@@ -77,7 +99,7 @@ public class movement : MonoBehaviour {
 			z = Mathf.Lerp (z, 0, Time.deltaTime * curSpeed);
 		}
 
-		if (Input.GetAxis("Vertical") < 0) {
+		if (yVal < 0) {
 			turning = true;
 			flipAngle = Mathf.Lerp (flipAngle, -turnRadius, Time.deltaTime * curSpeed);
 			z = Mathf.Lerp (z, zLimit, Time.deltaTime * curSpeed);
@@ -87,7 +109,7 @@ public class movement : MonoBehaviour {
 		}
 
 
-		if (Input.GetAxis("Horizontal") > 0) {
+		if (xVal > 0) {
 			turning = true;
 			turnAngle = Mathf.Lerp (turnAngle, turnRadius, Time.deltaTime  * curSpeed);
 			x = Mathf.Lerp (x, -xLimit, Time.deltaTime);
@@ -97,7 +119,7 @@ public class movement : MonoBehaviour {
 			x = Mathf.Lerp(x, 0, Time.deltaTime);
 		}
 
-		if (Input.GetAxis("Horizontal") < 0) {
+		if (xVal < 0) {
 			turning = true;
 			turnAngle = Mathf.Lerp (turnAngle, -turnRadius, Time.deltaTime  * curSpeed);
 			x = Mathf.Lerp (x, xLimit, Time.deltaTime);
@@ -128,21 +150,24 @@ public class movement : MonoBehaviour {
 			curSpeed = Mathf.Lerp (curSpeed, speed/4, Time.deltaTime * curSpeed);
 		}
 
-		for (int i = 0; i < bones.Length; i++) {
+		for (int i = 1; i < bones.Length; i++) {
 
 			newFrequency ();
-			y = Mathf.Sin (-Time.time * frequency + phase + (i/2)) * amplitude;
+			y = Mathf.Sin (-Time.time * frequency + phase + (i / sinePeriod)) * amplitude;
 
 
-			curRotation [i] = new Vector3 ((x * (i + 1)), (y * (i+1f))/10, (z * (i + 1)));
+//			curRotation [i] = new Vector3 ((x * (i + 1)), (y * (i+1f))/10, (z * (i + 1)));
+			curRotation[i] = bones[i - 1].transform.eulerAngles + new Vector3(x, y, z);
 			//(i + 1)
 			// Vector3.Lerp (curRotation... , Time.deltaTime * curSpeed)
-			bones [i].transform.localEulerAngles = curRotation [i];
+			bones [i].transform.eulerAngles = curRotation [i];
 		}
 
-		this.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x, this.transform.localEulerAngles.y + turnAngle, this.transform.localEulerAngles.z + flipAngle);
-		this.transform.position += this.transform.right * Time.deltaTime * curSpeed*5;
-		root.transform.localEulerAngles = new Vector3(spinAngle, turnAngle, root.transform.localEulerAngles.z);
+		//this.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x, this.transform.localEulerAngles.y + turnAngle, this.transform.localEulerAngles.z + flipAngle);
+		
+		//root.transform.localEulerAngles = new Vector3(spinAngle, turnAngle, root.transform.localEulerAngles.z);
+		this.transform.position += root.transform.right * Time.deltaTime * curSpeed*5;
+		root.transform.localEulerAngles = new Vector3(root.transform.localEulerAngles.x, root.transform.localEulerAngles.y + turnAngle, root.transform.localEulerAngles.z + flipAngle);
 	}
 
 

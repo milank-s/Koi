@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\milan\.Rider2018.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\milan\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_Koi.-1848406641.00" t="ExcludeRecursive" />
+    <e p="D:\Projects\Koi\Koi" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="CameraLink.cs" t="Include" />
+        <e p="Objects" t="Include">
+          <e p="General" t="Include">
+            <e p="AnimateMaterials.cs" t="Include" />
+            <e p="AssignMaterialsToFaces.cs" t="Include" />
+            <e p="drawSkinnedVerts.cs" t="Include" />
+            <e p="drawVerts.cs" t="Include" />
+          </e>
+          <e p="Koi" t="Include">
+            <e p="Scripts" t="Include">
+              <e p="alphaCutoff.cs" t="Include" />
+              <e p="followObject.cs" t="Include" />
+              <e p="lookAt.cs" t="Include" />
+              <e p="modulateScale.cs" t="Include" />
+              <e p="movement.cs" t="Include" />
+              <e p="rotate.cs" t="Include" />
+              <e p="scaleBehaviour.cs" t="Include" />
+              <e p="scaleController.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Networking" t="Include">
+            <e p="ClientMenu.cs" t="Include" />
+            <e p="ServerMenu.cs" t="Include" />
+          </e>
+          <e p="Sound" t="Include">
+            <e p="deleteSound.cs" t="Include" />
+            <e p="PlayOneSound.cs" t="Include" />
+            <e p="playSound.cs" t="Include" />
+          </e>
+          <e p="Text" t="Include">
+            <e p="Scripts" t="Include">
+              <e p="FaceCamera.cs" t="Include" />
+              <e p="SceneText.cs" t="Include" />
+              <e p="TextFader.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Koi.sln" t="IncludeFlat" />
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>
